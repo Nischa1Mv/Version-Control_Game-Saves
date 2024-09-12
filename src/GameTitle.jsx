@@ -1,37 +1,51 @@
 import { useState } from "react";
 
 function GameTitle({ Name, path, setPath }) {
+  // Remove "./" prefix from path, if it exists, to get the editable part of the path
   const editablePart = path.startsWith("./") ? path.slice(2) : path;
 
+  // Local state to hold the temporary value of the path being edited
   const [tempPath, setTempPath] = useState(editablePart);
+
+  // Local state to control whether the component is in edit mode
   const [editMode, setEditMode] = useState(false);
+
+  // Function to handle switching between edit mode and saving the path
   const edit = () => {
     if (editMode) {
+      // When leaving edit mode, update the parent state with the new path
       setPath(`./${tempPath}`);
     }
+    // Toggle edit mode
     setEditMode(!editMode);
   };
 
   return (
     <div className="mx-14 mt-4 flex justify-center py-4 text-3xl border rounded-xl mb-6">
+      {/* Display the game title */}
       <span>{Name}</span>
+
+      {/* Editable path field */}
       <span className="ml-2 text-sm flex items-end">
         {editMode ? (
           <div className="flex items-center">
+            {/* Display the "./" prefix which remains static */}
             <span className="border-b-2 border-gray-400 px-1 ">./</span>
+            {/* Input field for editing the path */}
             <input
               className="border-b-2 border-gray-400 focus:outline-none focus:bg-transparent"
-              value={tempPath}
-              onChange={(e) => setTempPath(e.target.value)}
-              onBlur={edit}
+              value={tempPath} // Bind the input value to tempPath state
+              onChange={(e) => setTempPath(e.target.value)} // Update tempPath on change
+              onBlur={edit} // Save the value and exit edit mode when input loses focus
               onKeyDown={(e) => {
-                if (e.key === "Enter") edit();
+                if (e.key === "Enter") edit(); // Save the value and exit edit mode when "Enter" is pressed
               }}
-              autoFocus
+              autoFocus // Automatically focus the input when in edit mode
             />
+            {/* Save/confirm button */}
             <svg
               className="cursor-pointer mx-1"
-              onClick={edit}
+              onClick={edit} // Save the value and exit edit mode when clicked
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
               viewBox="0 -960 960 960"
@@ -43,9 +57,11 @@ function GameTitle({ Name, path, setPath }) {
           </div>
         ) : (
           <>
+            {/* Display the current path in view mode */}
             {path}
+            {/* Edit button (pencil icon) */}
             <svg
-              onClick={edit}
+              onClick={edit} // Enter edit mode when clicked
               className="cursor-pointer mx-1"
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
