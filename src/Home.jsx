@@ -5,7 +5,8 @@ import GameTitle from "./GameTitle";
 import Search from "./search";
 import { gamesname } from "./gamesname";
 function Home() {
-  const [selectedGame, setSelectedGame] = useState(" The Witcher 3");
+  const [selectedGame, setSelectedGame] = useState(gamesname[0].name);
+  const [path, setPath] = useState(gamesname[0].path);
   return (
     <>
       <div className="w-screen h-screen flex">
@@ -15,12 +16,18 @@ function Home() {
           </div>
           <div className="flex  flex-col">
             {gamesname.map((game) => (
-              <Games key={game} Name={game} setSelectedGame={setSelectedGame} />
+              <Games
+                key={game}
+                Name={game.name}
+                setSelectedGame={setSelectedGame}
+                path={game.path}
+                setPath={setPath}
+              />
             ))}
           </div>
         </div>
         <div className="w-full  py-2">
-          <GameTitle Name={selectedGame} />
+          <GameTitle Name={selectedGame} path={path} setPath={setPath} />
           <div className="flex flex-col ">
             <GameFile Name={"save - 1"} date={"01-10-25"} time={"01:00"} />
             <GameFile Name={"save - 2"} date={"01-10-25"} time={"01:00"} />
